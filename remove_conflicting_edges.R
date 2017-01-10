@@ -9,9 +9,6 @@ args <- arg_parser('program')
 args <- add_argument(args, '-net',
                      help='network file',
                      default = '/scratch1/battle-fs1/ashis/results/gtex_twn/rsem/results_15000/quic_scale_free_combined/selected/diff_gene_net/WholeBlood.out.txt')
-args <- add_argument(args, '-mnew',
-                     help='new mappability file',
-                     default = '/scratch0/battle-fs1/annotation/mappability/avg_mappability_Exon_UTR.txt')
 args <- add_argument(args, '-gene_annot', 
                      help='gene annotation file',
                      default='/scratch1/battle-fs1/ashis/progdata/gtex_hidden_factor/rsem/annot/gene_annot.txt')
@@ -30,7 +27,6 @@ args <- add_argument(args, '-o',
 
 argv <- parse_args(args)
 net_fn <- argv$net
-mappability_new_fn <- argv$mnew
 gene_annot_fn <- argv$gene_annot
 trans_annot_fn <- argv$trans_annot
 conflict_fn <- argv$conflict
@@ -44,22 +40,17 @@ net <- fread(input = net_fn, sep = '\t', header = T, stringsAsFactors = F, colCl
 #dim(net)
 #head(net)
 
-mappability_new <- fread(input = mappability_new_fn, sep = '\t', header = F, stringsAsFactors = F, colClasses = c('character', 'numeric'), col.names = c('gene', 'mappability'), data.table = F)
-#dim(mappability_new)
-#head(mappability_new)
-mappability_new <- mappability_new[!is.na(mappability_new$mappability), ]  # removed NAs
-
-gene_annot <- fread(input = gene_annot_fn, sep = '\t', header = T, stringsAsFactors = F, colClasses = c(chr='character'), check.names = F, data.table = F)
-rownames(gene_annot) <- gene_annot$id
+gene_annot <- fread(input = gene_annot_fn, sep = '\t', header = T, stringsAsFactors = F, check.names = F, data.table = F)
+rownames(gene_annot) <- gene_annot$gene_id
 #dim(gene_annot)
 #head(gene_annot)
 
-trans_annot <- fread(input = trans_annot_fn, sep = '\t', header = T, stringsAsFactors = F, colClasses = c(chr='character'), check.names = F, data.table = F)
-rownames(trans_annot) <- trans_annot$id
+trans_annot <- fread(input = trans_annot_fn, sep = '\t', header = T, stringsAsFactors = F, check.names = F, data.table = F)
+rownames(trans_annot) <- trans_annot$transcript_id
 #dim(trans_annot)
 #head(trans_annot)
 
-pairwise_conflicts <- fread(input = conflict_fn, sep = '\t', header = F, stringsAsFactors = F, colClasses = 'character', col.names=c('gene1','gene2'), check.names = F, data.table = F)
+pairwise_conflicts <- fread(input = conflict_fn, sep = '\t', header = T, stringsAsFactors = F, colClasses = 'character', check.names = F, data.table = F)
 #dim(pairwise_conflicts)
 #head(pairwise_conflicts)
 
@@ -75,25 +66,25 @@ te_ir_net <- net[net$Edge.type==2, ]
 ir_ir_net <- net[net$Edge.type==3, ]
 
 all_genes <- unique(c(te_te_net$Name1, te_te_net$Name2, te_ir_net$Name1))
-gene_ensgid_df <- merge(data.frame(sym=all_genes, stringsAsFactors = F), gene_annot, by.x='sym', by.y='sym', all.x=T,  all.y=F)
+gene_ensgid_df <- merge(data.frame(gene_id=all_genes, stringsAsFactors = F), gene_annot, by.x='gene_id', by.y='gene_id', all.x=T,  all.y=F)
 
 if(nrow(gene_ensgid_df) > length(all_genes)){
   # all geneids could not be identified unambiguously
-  gene_counts <- tapply(gene_ensgid_df$sym, gene_ensgid_df$sym, length)
+  gene_counts <- tapply(gene_ensgid_df$gene_id, gene_ensgid_df$gene_id, length)
   ambiguous_genes <- names(which(gene_counts>1))
-  warning(paste('these geneids could not be identified unambiguously: ', paste(ambiguous_genes, sep=',', collapse = ',')))
+  warning(paste('some geneids have multiple ensembl ids: ', paste(ambiguous_genes, sep=',', collapse = ',')))
   # breaking ambiguity
   selected_idx <- tapply(1:nrow(gene_ensgid_df), gene_ensgid_df$sym, function(x) x[1])
   gene_ensgid_df <- gene_ensgid_df[selected_idx,]
 }
 rownames(gene_ensgid_df) <- gene_ensgid_df$sym
 
-te_te_net['ensgid1'] <- gene_ensgid_df[te_te_net$Name1, 'id']
-te_te_net['ensgid2'] <- gene_ensgid_df[te_te_net$Name2, 'id']
-te_ir_net['ensgid1'] <- gene_ensgid_df[te_ir_net$Name1, 'id']
-te_ir_net['ensgid2'] <- trans_annot[te_ir_net$Name2, 'geneid']
-ir_ir_net['ensgid1'] <- trans_annot[ir_ir_net$Name1, 'geneid']
-ir_ir_net['ensgid2'] <- trans_annot[ir_ir_net$Name2, 'geneid']
+te_te_net['ensgid1'] <- gene_ensgid_df[te_te_net$Name1, 'ensembl_gene_id']
+te_te_net['ensgid2'] <- gene_ensgid_df[te_te_net$Name2, 'ensembl_gene_id']
+te_ir_net['ensgid1'] <- gene_ensgid_df[te_ir_net$Name1, 'ensembl_gene_id']
+te_ir_net['ensgid2'] <- trans_annot[te_ir_net$Name2, 'ensembl_gene_id']
+ir_ir_net['ensgid1'] <- trans_annot[ir_ir_net$Name1, 'ensembl_gene_id']
+ir_ir_net['ensgid2'] <- trans_annot[ir_ir_net$Name2, 'ensembl_gene_id']
 
 ##### filter conflict data based on edges in the net
 all_ensgids <- unique(c(te_te_net$ensgid1, te_te_net$ensgid2, 

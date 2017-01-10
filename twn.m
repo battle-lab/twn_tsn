@@ -29,7 +29,6 @@ if ischar(standardize_data)
 end
 
 
-%addpath('/scratch1/battle-fs1/tools_shared/QUIC_1.2')
 addpath(quic_dir);
 
 disp('reading inputs ...');
@@ -57,27 +56,21 @@ isoforms = strsplit(first_line, {'\t', '\n'});
 isoforms = isoforms(2:(size(isoforms,2)-1));
 fclose(fh);
 
-%M1 = dlmread(te_fn, '\t', 1, 1);
-%M2 = dlmread(iso_fn, '\t', 1, 1);
-
 [nse ne] = size(M1);
 [nsi ni] = size(M2); 
 nfeatures = ne + ni;
 
 %% error if the samples are not in the same order
 if nse ~= nsi
-    throw(MException('runquic:diffnoofsample', 'both expression and isoform data must have same no. of samples.'))
+    throw(MException('twn:diffnoofsample', 'total expression and isoform ratio data must have same no. of samples.'))
 end
 
 for i = 1:size(samples1,1)
     if ~strcmp(samples1{i}, samples2{i})
-        throw(MException('runquic:sampleorder', 'samples must maintain the same order in both expression and isoform data'))
+        throw(MException('twn:sampleorder', 'samples must maintain the same order in both expression and isoform data'))
     end
 end
 
-%ne = 200;
-%ni = 200;
-%nfeatures=ne+ni;
 
 M = [M1(:,1:ne), M2(:,1:ni)];
 
@@ -89,7 +82,7 @@ end
 
 %% read transcript annotation file and process it.
 annot = dataset('File', annot_fn, 'ReadObsName', false, 'ReadVarNames', true, 'Delimiter', '\t');
-iso2gene = containers.Map(cellstr(annot(:,'id')), cellstr(annot(:,'sym')));
+iso2gene = containers.Map(cellstr(annot(:,'transcript_id')), cellstr(annot(:,'gene_id')));
 gene2isoidx = containers.Map(); 
 for idx = 1:size(isoforms,2)
     iso = char(isoforms(idx));
@@ -109,7 +102,7 @@ L(1:ne, 1:ne) = lambda_tt;
 L(1:ne, ne+1:nfeatures) = lambda_ti;
 L(ne+1:nfeatures, 1:ne) = lambda_ti;
 L(ne+1:nfeatures, ne+1:nfeatures) = lambda_ii;
-L(logical(eye(nfeatures))) = lambda_d; % diagonal 0
+L(logical(eye(nfeatures))) = lambda_d; % diagonal penalty
 % put small lambda between isoforms of same geme
 for k = gene2isoidx.keys()
     indexes = gene2isoidx(char(k));

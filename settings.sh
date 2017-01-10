@@ -1,12 +1,9 @@
-#settings_dir=$(cd $(dirname "$0") && pwd -P)/$(basename "$0");
 settings_dir=$(cd $(dirname "$0") && pwd -P);
-#echo $settings_dir;
-directory_separator="/";  # for linux and mac: "/", for windows: "\"
-quic_directory="$settings_dir/QUIC_1.2"; #"/Users/ashissaha/github/twn/QUIC_1.2";
-gene_annotation="$settings_dir/data/gene_annot_unambiguous.txt"; 
+quic_directory="$settings_dir/QUIC_1.2";
+gene_annotation="$settings_dir/data/gene_annot.txt"; 
 isoform_annotation="$settings_dir/data/transcript_annot.txt";
 positional_overlap="$settings_dir/data/positional_overlap.txt";
-mappability_conflict="$settings_dir/data/avg_mappability_Exon_UTR.txt";
+cross_mappable_genes="$settings_dir/data/cross_mappable_genes.txt";
 
 n_iteration=50;
 threshold=1e-4;

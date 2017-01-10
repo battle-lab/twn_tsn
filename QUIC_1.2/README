@@ -1,0 +1,104 @@
+This the README file for the Matlab and Octave release of the QUIC
+program. Please refer to the following publication regarding the
+algorithm:
+
+  Sparse Inverse Covariance Matrix Estimation Using Quadratic
+  Approximation. Cho-Jui Hsieh, Matyas A. Sustik, Inderjit S. Dhillon,
+  Pradeep Ravikumar, Advances in Neural Information Processing Systems,
+  vol. 24, 2011, p. 2330--2338.
+
+Thank you for trying out our software! You can obtain the latest
+version from:
+
+        http://www.cs.utexas.edu/users/sustik/QUIC
+
+Please send comments and bug reports to: msustik@gmail.com.
+
+
+  COMPILE
+
+You may compile QUIC using the MEX compiler provided by Matlab.
+This is the simplest option for Matlab users. For example:
+
+> mex -lmwlapack QUIC.cpp QUIC-mex.cpp -output QUIC.mexa64
+> mex -lmwlapack QUIC.cpp QUIC-mex.cpp -output QUIC.mexmaci64
+> mex -lmwlapack QUIC.cpp QUIC-mex.cpp -output QUIC.mexw64
+
+Use the proper extension applicable: mexglx, mexa64 (Linux),
+mexmaci32, mexmaci64 (MacOS), mexw32, mexw64 (Windows).
+
+In the above examples the LAPACK library is the one provided
+by Matlab. You may specify another LAPACK library if you wish.
+For example, on Linux you may use:
+
+> mex -llapack QUIC.cpp QUIC-mex.cpp -output QUIC.mexa64
+
+If you are using Octave then the compile command is:
+
+> mex -llapack QUIC.cpp QUIC-mex.cpp -o QUIC.mex
+
+The provided Makefile provides better control over the compiler
+options. For example, the Makefile allows the compile of a debug
+version.
+
+When the debug version of the program (QUIC_g) is executed, gdb is
+attached and a debug window will pop up. No change from Matlab or
+Octave is necessary. The debug version requires the startgdb.h header
+file which is made available separately and upon request. Send your
+request to msustik@gmail.com.
+
+
+  INVOCATION
+
+From within Matlab or Octave an example invocation is:
+
+> [X W opt cputime iter dGap] = QUIC('default', S, 0.5, 1e-6, 2, 100);
+
+where S is the empirical covariance matrix, the regularization
+parameter is 0.5, and tolerance is 1e-6.
+
+We also include an M-script called demo_ER_692.m that demonstrates
+usage on the ER dataset.
+
+The arguments and return values are documented in QUIC.m. You may type
+'help QUIC' from withon Matlab or Octave to obtain the full documentation.
+
+
+  NOTE ON THE DUALITY GAP COMPUTATION
+
+In each iteration, after we computed the next iterate for X, we invert
+it to obtain W. (Please refer to our paper for notations.) Since W is
+not guaranteed to satisfy the dual constraint, we project it and use
+the resulting matrix in the duality gap computation.  It is not
+guaranteed that the projected W is positive definite. We return a
+negative value for the gap when the projected W is not positive
+definite.
+
+
+  NOTES ON PROBLEM REPORTS AND DEBUGGING
+
+If you find a problem or have a suggestion please send an email
+to: msustik@gmail.com.
+
+The following will make your bug report most useful:
+
+1. Try to reproduce the problem on Linux and using as small
+   example as you can.
+2. Save the arguments to the failing function call in a .mat
+   file (version 7) and send it along with your invocation and
+   error description in an email.
+
+Should you decide to attempt to debug the problem yourself,
+you may try the debug version (QUIC_g) of the program.  See the
+Makefile for details.
+
+
+  ACKNOWLEDGEMENTS
+
+We thank Diane Oyen, Nora Leonardi and Andrew Cho for help and
+suggestions regarding the MacOS compile instructions. We thank Bernard
+Ng and Anup Das for their input regarding the Windows compile. We also
+thank Bernard Ng for his insights on the duality gap.
+
+
+

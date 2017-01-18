@@ -43,11 +43,11 @@ sh ./check_prerequisites.sh
 ```
 
 ##How to construct a TWN?
-You have to run the script twn.sh with the following arguments.
-Total expression data file path
-Isoform ratio data file path
-Output file prefix
-5 penalty parameters (lambda_tt, lambda_ti, lambda_ii, lambda_d, lambda_s). see the paper for details.
+You have to run the script twn.sh with the following arguments.  
+  * Total expression data file path
+  * Isoform ratio data file path
+  * Output file prefix
+  * 5 penalty parameters (lambda_tt, lambda_ti, lambda_ii, lambda_d, lambda_s). see the paper for details.
 
 ###Sample shell script code
 ```

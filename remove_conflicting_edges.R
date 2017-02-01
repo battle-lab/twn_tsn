@@ -2,8 +2,6 @@
 
 library(argparser)
 library(data.table)
-library(ggplot2)
-library(cowplot)
 
 args <- arg_parser('program')
 args <- add_argument(args, '-net',
@@ -32,8 +30,6 @@ trans_annot_fn <- argv$trans_annot
 conflict_fn <- argv$conflict
 positional_overlap_fn <- argv$overlap
 out_fn <- argv$o
-
-plt_prefix <- out_fn
 
 #### read inputs
 net <- fread(input = net_fn, sep = '\t', header = T, stringsAsFactors = F, colClasses = c('character', 'character', 'integer', 'numeric'), col.names = c('Name1', 'Name2', 'Edge.type', 'Edge.weight'), check.names = T, data.table = F)

@@ -37,12 +37,12 @@ then
 
     ### convert matrix market file to readable network format
     echo "exporting networks in a readable format ...";
-    $python_path matrix_market2txt.py -in "$out_fn_prefix.mm" -expr $te_fn -iso $ir_fn -o "$out_fn_prefix.txt";
+    $python_path matrix_market2txt.py -in "$out_fn_prefix.mm" -expr $te_fn -iso $ir_fn -o "$out_fn_prefix.quic.txt";
 
     ### remove conflicting and overlapped edges
     echo "removing edges between overlapped or cross-mappable genes ..."
-    $rscript_path remove_conflicting_edges.R -net "$out_fn_prefix.txt"  -gene_annot "$gene_annotation" -trans_annot "$isoform_annotation" -conflict "$cross_mappable_genes" -overlap "$positional_overlap" -o "$out_fn_prefix.final.txt";
+    $rscript_path remove_conflicting_edges.R -net "$out_fn_prefix.quic.txt"  -gene_annot "$gene_annotation" -trans_annot "$isoform_annotation" -conflict "$cross_mappable_genes" -overlap "$positional_overlap" -o "$out_fn_prefix.twn.txt";
 
     ### inform final status
-    echo "Please find TWN here: $out_fn_prefix.final.txt. Thanks!";
+    echo "Please find TWN here: $out_fn_prefix.twn.txt. Thanks!";
 fi

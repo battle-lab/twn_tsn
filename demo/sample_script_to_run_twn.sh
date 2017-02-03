@@ -1,12 +1,16 @@
-twn_dir='/home/asaha6/github/twn'
-te_fn="$twn_dir/data/demo/TE_demo.txt"
-ir_fn="$twn_dir/data/demo/IR_demo.txt"
-out_fn="$twn_dir/demo/output_demo"
-l_tt=0.5
-l_ti=0.4
-l_ii=0.4
-l_d=0
-l_s=0.05
+# parameters
+twn_dir='/home/asaha6/github/twn'            # twn repository directory
+te_fn="$twn_dir/data/demo/TE_demo.txt"       # total expression file
+ir_fn="$twn_dir/data/demo/IR_demo.txt"       # isoform ratio file
+out_fn_prefix="$twn_dir/demo/output_demo"    # output file prefix
+l_tt=0.5      # penalty parameter
+l_ti=0.4      # penalty parameter
+l_ii=0.4      # penalty parameter
+l_d=0         # penalty parameter
+l_s=0.05      # penalty parameter
 
-cd $twn_dir
-sh ./twn.sh $te_fn $ir_fn $out_fn $l_tt $l_ti $l_ii $l_d $l_s
+# move to the twn source directory 
+cd $twn_dir   
+
+# run twn
+sh ./twn.sh $te_fn $ir_fn $out_fn_prefix $l_tt $l_ti $l_ii $l_d $l_s  

@@ -95,7 +95,7 @@ for idx = 1:size(isoforms,2)
 end
 
 
-disp('creating penalty metrix');
+disp('creating penalty metrix ...');
 % create lambda matrix
 L = zeros(nfeatures, nfeatures);
 L(1:ne, 1:ne) = lambda_tt;
@@ -140,23 +140,19 @@ for idx1 = 1:size(genes,2)
 end
 
 % run quic
-disp('creating sample covariance matrix');
-S = cov(M);
-
 disp('running QUIC');
+S = cov(M);
 [X W opt cputime iter_run dGap] = QUIC('default', S, L, tol, verbose, iter);
 
 clear S;
 clear L;
 
 % save results
-disp('saving X');
 X = sparse(X);
 mm_out_fn = sprintf('%s.mm', out_fn);
 mmwrite(mm_out_fn, X);
 clear X;
 
-disp('saving stats');
 obj_out_fn = sprintf('%s.obj', out_fn);
 fid = fopen(obj_out_fn, 'w');
 fprintf(fid, '%f\t', opt);

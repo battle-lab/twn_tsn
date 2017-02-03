@@ -19,21 +19,22 @@ Tab delimited file containing corrected total expression data. Each row represen
 Tab delimited file containing corrected isoform ratio data. Each row represent a sample and each column represents an isoform. First row and first column contain isoform ids and sample ids, respectively. Samples in both Total Expression and Isoform Ratio files have to be in the same order.
 
 ###Gene Annotation File
-Tab delimited file with two columns: gene_id, and ensembl_gene_id. 
+Tab delimited file with two columns: _gene_id_, and _ensembl_gene_id_. 
 
 ###Isoform Annotation File
-Tab delimited file with three columns: transcript_id (isoform id),  gene_id, and ensembl_gene_id. 
+Tab delimited file with three columns: _transcript_id_ (isoform id),  _gene_id_, and _ensembl_gene_id_. 
 
 ###Positional Overlap File
-Tab delimited file with two columns containing pair of genes (ensembl gene ids) with positional overlap in the genome.
+Tab delimited file with two columns (_gene1_, _gene2_) containing pair of genes (ensembl gene ids) with positional overlap in the genome.
 
 ###Cross Mappability File
-Tab delimited file with two columns containing pair of genes (ensembl gene ids) with cross mappability (see the paper for details).
+Tab delimited file with two columns (_gene1_, _gene2_) containing pair of genes (ensembl gene ids) with cross mappability (see the paper for details).
 
+### Example Data
+You may download example data from [here](https://drive.google.com/file/d/0B4XmrKDM9Pe3bmFaMWhqYXdmbjQ/view?usp=sharing). Please unzip the file and put inside the repository directory (in the directory where twn.sh file is). If you do not keep data in this directory, please update the settings file accordingly.
 
 ##Settings
 settings.sh file contains necessary information to run twn.sh. You need to edit this file to customize your settings.
-
 
 ##Are the installations and the settings are OK?
 To check if all pre-requisites have been successfully installed, and the setting file contains valid configuration, run the following command.
@@ -51,28 +52,33 @@ You have to run the script twn.sh with the following arguments.
 
 ###Sample shell script code
 ```
-te_fn="/Users/ashissaha/github/twn/test/TE_sample1.txt"  #total expression file
-ir_fn="/Users/ashissaha/github/twn/test/IR_sample1.txt"  #isoform ratio file
-out_fn="/Users/ashissaha/github/twn/results/sample1"     #output file prefix
-l_tt=0.5    # penalty parameter
-l_ti=0.4    # penalty parameter
-l_ii=0.4    # penalty parameter
-l_d=0       # penalty parameter
-l_s=0.05    # penalty parameter
+# parameters
+twn_dir='/home/asaha6/github/twn'            # twn repository directory
+te_fn="$twn_dir/data/demo/TE_demo.txt"       # total expression file
+ir_fn="$twn_dir/data/demo/IR_demo.txt"       # isoform ratio file
+out_fn_prefix="$twn_dir/demo/output_demo"    # output file prefix
+l_tt=0.5      # penalty parameter
+l_ti=0.4      # penalty parameter
+l_ii=0.4      # penalty parameter
+l_d=0         # penalty parameter
+l_s=0.05      # penalty parameter
 
-cd /Users/ashissaha/github/twn    # move to the twn source directory 
-sh ./twn.sh $te_fn $ir_fn $out_fn $l_tt $l_ti $l_ii $l_d $l_s     # run twn
+# move to the twn source directory 
+cd $twn_dir   
+
+# run twn
+sh ./twn.sh $te_fn $ir_fn $out_fn_prefix $l_tt $l_ti $l_ii $l_d $l_s  
 ```
 
-You will find a number of files with starting with the given output file prefix and the following suffixes:
-.final.txt
-.txt
-.***
+For convenience, a sample script has been provided in the demo folder to construct a TWN. After a successful run, you will find a number of files with starting with the given output file prefix (e.g., _*.twn.txt_, _*.iter_ etc.). 
 
-*.final.txt is a tab delimited file with four columns representing the constructed transcriptome-wide network.
+_*.twn.txt_ is a tab delimited file with four columns representing the constructed transcriptome-wide network. Here, the first two columns, containing either a total expression id or an isoform id, together represent an edge. The third column represents the type of the edge: 1 for an edge strictly between two total expressions, 2 for an edge between a total expression and an isoform, 3 for an edge strictly between two isoforms. The fourth column represents the edge weight.  
 
-The first two columns, containing either a total expression id or an isoform id, together represent an edge. The third column represents the type of the edge: 1 for an edge strictly between two total expressions, 2 for an edge between a total expression and an isoform, 3 for an edge strictly between two isoforms. The fourth column represents the edge weight.
+Among other files, _*.quic.txt_ file represents a network similar to _*.twn.txt_, but it contains edges between overlapped or cross-mappable genes. _*.obj_ file contains the optimum objective value obtained from QUIC.  _*.iter_ file contains the number of iteration needed for the optimization. _*.time_ file cotains the time needed to finish the optimization.
 
 
 ## How to cite (it will be updated once the paper is published)
 Saha A, Kim Y, Gewirtz ADH, Jo B, Gao C, McDowell IC, GTEx Consortium, Engelhardt BE, Battle A. 2016. Co-expression networks reveal the tissue-specific regulation of transcription and splicing. bioRxiv. http://biorxiv.org/content/early/2016/10/02/078741.abstract.
+
+## Contact
+Ashis Saha (ashis@jhu.edu)

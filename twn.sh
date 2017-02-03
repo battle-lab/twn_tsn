@@ -21,14 +21,28 @@ twn_directory=$(cd $(dirname "$0") && pwd -P);
 settings_fn="$twn_directory/settings.sh";
 source $settings_fn;
 
-### check if input files are ok
-
-### run quic
 cd "$twn_directory";
-$matlab_path -nodisplay -nosplash -singleCompThread -r "try, twn $te_fn $ir_fn $out_fn_prefix  $l_tt $l_ti $l_ii $l_d $l_s $n_iteration $threshold 1 $standardize_data $isoform_annotation $quic_directory, catch err, disp(err), end, quit";
 
-### convert matrix market file to readable network format
-$python_path matrix_market2txt.py -in "$out_fn_prefix.mm" -expr $te_fn -iso $ir_fn -o "$out_fn_prefix.txt";
+### check if input files are ok
+echo "checking data ...";
+data_status_fn="${out_fn_prefix}_data_status.txt"
+$rscript_path check_data.R -gene_annot "$gene_annotation" -trans_annot "$isoform_annotation" -conflict "$cross_mappable_genes" -overlap "$positional_overlap" -te "$te_fn" -ir "$ir_fn" -o $data_status_fn;
+data_status=$(head -n 1 $data_status_fn)
 
-### remove conflicting and overlapped edges
-$rscript_path remove_conflicting_edges.R -net "$out_fn_prefix.txt"  -gene_annot "$gene_annotation" -trans_annot "$isoform_annotation" -conflict "$cross_mappable_genes" -overlap "$positional_overlap" -o "$out_fn_prefix.final.txt";
+if(( $data_status == '1' ))
+then
+    ### run quic
+    echo "running QUIC ...";
+    $matlab_path -nodisplay -nosplash -singleCompThread -r "try, twn $te_fn $ir_fn $out_fn_prefix  $l_tt $l_ti $l_ii $l_d $l_s $n_iteration $threshold 1 $standardize_data $isoform_annotation $quic_directory, catch err, disp(err), end, quit";
+
+    ### convert matrix market file to readable network format
+    echo "exporting networks in a readable format ...";
+    $python_path matrix_market2txt.py -in "$out_fn_prefix.mm" -expr $te_fn -iso $ir_fn -o "$out_fn_prefix.txt";
+
+    ### remove conflicting and overlapped edges
+    echo "removing edges between overlapped or cross-mappable genes ..."
+    $rscript_path remove_conflicting_edges.R -net "$out_fn_prefix.txt"  -gene_annot "$gene_annotation" -trans_annot "$isoform_annotation" -conflict "$cross_mappable_genes" -overlap "$positional_overlap" -o "$out_fn_prefix.final.txt";
+
+    ### inform final status
+    echo "Please find TWN here: $out_fn_prefix.final.txt. Thanks!";
+fi

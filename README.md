@@ -34,7 +34,7 @@ Tab delimited file with two columns (_gene1_, _gene2_) containing pair of genes 
 You may download example data from [here](https://drive.google.com/file/d/0B4XmrKDM9Pe3bmFaMWhqYXdmbjQ/view?usp=sharing). Please unzip the file and put inside the repository directory (in the directory where twn.sh file is). If you do not keep data in this directory, please update the settings file accordingly.
 
 ##Settings
-settings.sh file contains necessary information to run twn.sh. You need to edit this file to customize your settings.
+_settings.sh_ file contains necessary information to run _twn.sh_. You need to edit this file to customize your settings.
 
 ##Are the installations and the settings are OK?
 To check if all pre-requisites have been successfully installed, and the setting file contains valid configuration, run the following command.
@@ -70,11 +70,11 @@ cd $twn_dir
 sh ./twn.sh $te_fn $ir_fn $out_fn_prefix $l_tt $l_ti $l_ii $l_d $l_s  
 ```
 
-For convenience, a sample script has been provided in the demo folder to construct a TWN. After a successful run, you will find a number of files with starting with the given output file prefix (e.g., _*.twn.txt_, _*.iter_ etc.). 
+For convenience, a sample script has been provided in the demo folder to construct a TWN. After a successful run, you will find a number of files with starting with the given output file prefix (e.g., _[output prefix].twn.txt_, _[output prefix].iter_ etc.). 
 
-_*.twn.txt_ is a tab delimited file with four columns representing the constructed transcriptome-wide network. Here, the first two columns, containing either a total expression id or an isoform id, together represent an edge. The third column represents the type of the edge: 1 for an edge strictly between two total expressions, 2 for an edge between a total expression and an isoform, 3 for an edge strictly between two isoforms. The fourth column represents the edge weight.  
+_[output prefix].twn.txt_ is a tab delimited file with four columns representing the constructed transcriptome-wide network. Here, the first two columns, containing either a total expression id or an isoform id, together represent an edge. The third column represents the type of the edge: 1 for an edge strictly between two total expressions, 2 for an edge between a total expression and an isoform, 3 for an edge strictly between two isoforms. The fourth column represents the edge weight.  
 
-Among other files, _*.quic.txt_ file represents a network similar to _*.twn.txt_, but it contains edges between overlapped or cross-mappable genes. _*.obj_ file contains the optimum objective value obtained from QUIC.  _*.iter_ file contains the number of iteration needed for the optimization. _*.time_ file cotains the time needed to finish the optimization.
+Among other files, _[output prefix].quic.txt_ file represents a network similar to _[output prefix].twn.txt_, but it contains edges between overlapped or cross-mappable genes. _[output prefix].obj_ file contains the optimum objective value obtained from QUIC.  _[output prefix].iter_ file contains the number of iteration needed for the optimization. _[output prefix].time_ file cotains the time needed to finish the optimization.
 
 
 ## How to cite (it will be updated once the paper is published)

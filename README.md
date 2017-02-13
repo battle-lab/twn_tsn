@@ -10,7 +10,7 @@ All the scripts here were written and run in Linux environment with matlab 2013a
 
 1. QUIC() function must be running in matlab. Please see instructions here: http://www.cs.utexas.edu/~sustik/QUIC/. For convenience, we included QUIC package in our repository. You may need to compile it following the instructions in README file inside QUIC package.
 2. 3 packages must be installed in python: numpy, pandas, and argparse.
-3. argparser package must be installed in R.
+3. 2 packages must be installed in R: argparser, and data.table.
 
 
 ###Files and Formats
@@ -50,7 +50,7 @@ You have to run the script twn.sh with the following arguments.
 Sample shell script code
 ```
 # parameters
-twn_dir='/home/asaha6/github/twn_tsn/twn'    # twn directory
+twn_dir='/home/asaha6/github/twn_tsn/twn'    # twn directory *** change it ***
 te_fn="$twn_dir/data/demo/TE_demo.txt"       # total expression file
 ir_fn="$twn_dir/data/demo/IR_demo.txt"       # isoform ratio file
 out_fn_prefix="$twn_dir/demo/output_demo"    # output file prefix
@@ -67,7 +67,9 @@ cd $twn_dir
 sh ./twn.sh $te_fn $ir_fn $out_fn_prefix $l_tt $l_ti $l_ii $l_d $l_s  
 ```
 
-For convenience, a sample script has been provided in the demo folder to construct a TWN. After a successful run, you will find a number of files with starting with the given output file prefix (e.g., _[output prefix].twn.txt_, _[output prefix].iter_ etc.). 
+For convenience, a sample script (_sample_script_to_run_twn.sh_) has been provided in the demo folder (_twn/demo/_) to construct a TWN. Remember to change the value of _twn_dir_ in the sample script to reflect your own _twn directory_.
+
+After a successful run, you will find a number of files with starting with the given output file prefix (e.g., _[output prefix].twn.txt_, _[output prefix].iter_ etc.). 
 
 _[output prefix].twn.txt_ is a tab delimited file with four columns representing the constructed transcriptome-wide network. Here, the first two columns, containing either a total expression id or an isoform id, together represent an edge. The third column represents the type of the edge: 1 for an edge strictly between two total expressions, 2 for an edge between a total expression and an isoform, 3 for an edge strictly between two isoforms. The fourth column represents the edge weight.  
 

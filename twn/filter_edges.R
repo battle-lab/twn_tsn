@@ -1,4 +1,5 @@
-### this script removes possibly conflicting edges due to alignment/mappability and positional overlap
+### this script removes edges between features coming from same gene,
+### and possibly conflicting edges due to alignment/mappability and positional overlap
 
 library(argparser)
 library(data.table)

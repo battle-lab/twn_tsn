@@ -6,19 +6,19 @@ library(data.table)
 args <- arg_parser('program')
 args <- add_argument(args, '-net',
                      help='network file',
-                     default = '/scratch1/battle-fs1/ashis/results/gtex_twn/rsem/results_15000/quic_scale_free_combined/selected/diff_gene_net/WholeBlood.out.txt')
+                     default = 'demo/output_demo.quic.txt')
 args <- add_argument(args, '-gene_annot', 
                      help='gene annotation file',
-                     default='/scratch1/battle-fs1/ashis/progdata/gtex_hidden_factor/rsem/annot/gene_annot.txt')
+                     default='data/gene_annot.txt')
 args <- add_argument(args, '-trans_annot', 
                      help='gene annotation file',
-                     default='/scratch1/battle-fs1/ashis/progdata/gtex_hidden_factor/rsem/annot/transcript_annot.txt')
+                     default='data/transcript_annot.txt')
 args <- add_argument(args, '-conflict',
                      help='conflicting genes file',
-                     default='/scratch0/battle-fs1/annotation/mappability/pairwise_conflict.txt')
+                     default='data/cross_mappable_genes.txt')
 args <- add_argument(args, '-overlap',
                      help='positional overlap file',
-                     default='/scratch0/battle-fs1/annotation/mappability/positional_overlap.txt')
+                     default='data/positional_overlap.txt')
 args <- add_argument(args, '-o',
                      help='output network file',
                      default='results/artifact_removed_net.out.txt')
@@ -54,6 +54,14 @@ positional_overlap <- fread(input = positional_overlap_fn, sep = '\t', header = 
 #dim(positional_overlap)
 #head(positional_overlap)
 
+
+### remove edges between features of same edge
+net['Name1_gene'] <- net$Name1
+net['Name2_gene'] <- net$Name2
+net[net$Edge.type==2, 'Name2_gene'] <- trans_annot[net$Name2[net$Edge.type==2], 'gene_id']
+net[net$Edge.type==3, 'Name1_gene'] <- trans_annot[net$Name1[net$Edge.type==3], 'gene_id']
+net[net$Edge.type==3, 'Name2_gene'] <- trans_annot[net$Name2[net$Edge.type==3], 'gene_id']
+net = net[net$Name1_gene != net$Name2_gene, ]
 
 
 ##### get enesemble ids of genes in net

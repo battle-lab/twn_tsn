@@ -95,18 +95,9 @@ All the scripts were written and run in Linux environment with R 3.3.1.
 
 1. This assumes that you have already run Bicmix. Bicmix code is available here:
 	https://www.cs.princeton.edu/~bee/software.html
-	A sample batch perl script for running Bicmix on a slurm-based scheduler is included below:
+	A sample batch perl script for creating scripts for multiple bicmix jobs is below:
 
 ####### START SAMPLE PERL SCRIPT
-
-$heredoc1 = <<END;
-
-#SBATCH -J bicmix
-#SBATCH -N 1  
-#SBATCH --get-user-env
-#SBATCH -t 144:00:00
-#SBATCH --mem=45000
-END
 
 $heredoc2 = <<END;
 
@@ -126,7 +117,6 @@ my $data_i =("name of expression data file"); #TODO: EDIT
         print "$file\n";
         open FILE,">$dir/$file" or die;
         print FILE "#!/bin/bash\n\n";
-        print FILE $heredoc1;
         print FILE "data_i=$data_i\n";
         print FILE "fac=$fac\n";
         print FILE "interval=$interval\n";
@@ -134,10 +124,10 @@ my $data_i =("name of expression data file"); #TODO: EDIT
         print FILE "result=$result\n";
         print FILE $heredoc2;
         close FILE;
-        `sbatch $dir/$file`;
+        #`./$dir/$file`; TODO: These shell scripts all need to be run
   }
 
-####### END SAMPLE PERL SCRIPT 
+####### END SAMPLE PERL SCRIPT -remember to run all the shell scripts you created in $dir
 
 2. argparser package must be installed in R.
 

@@ -7,3 +7,11 @@
 # personal folder history
 .DS_Store
 
+# data
+twn/data/[^readme]*
+twn/data/[^readme]/
+twn/results/
+tsn/data/[^readme]*
+tsn/data/[^readme]/
+tsn/results/
+

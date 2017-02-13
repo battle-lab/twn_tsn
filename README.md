@@ -16,25 +16,19 @@ All the scripts here were written and run in Linux environment with matlab 2013a
 
 ###Files and Formats
 
-####Total Expression File
-Tab delimited file containing corrected total expression data. Each row represent a sample and each column represents a gene. First row and first column contain gene ids and sample ids, respectively.
+* Total Expression File: Tab delimited file containing corrected total expression data. Each row represent a sample and each column represents a gene. First row and first column contain gene ids and sample ids, respectively.
 
-####Isoform Ratio File
-Tab delimited file containing corrected isoform ratio data. Each row represent a sample and each column represents an isoform. First row and first column contain isoform ids and sample ids, respectively. Samples in both Total Expression and Isoform Ratio files have to be in the same order.
+* Isoform Ratio File: Tab delimited file containing corrected isoform ratio data. Each row represent a sample and each column represents an isoform. First row and first column contain isoform ids and sample ids, respectively. Samples in both Total Expression and Isoform Ratio files have to be in the same order.
 
-####Gene Annotation File
-Tab delimited file with two columns: _gene_id_, and _ensembl_gene_id_. 
+* Gene Annotation File: Tab delimited file with two columns: _gene_id_, and _ensembl_gene_id_. 
 
-####Isoform Annotation File
-Tab delimited file with three columns: _transcript_id_ (isoform id),  _gene_id_, and _ensembl_gene_id_. 
+* Isoform Annotation File: Tab delimited file with three columns: _transcript_id_ (isoform id),  _gene_id_, and _ensembl_gene_id_. 
 
-####Positional Overlap File
-Tab delimited file with two columns (_gene1_, _gene2_) containing pair of genes (ensembl gene ids) with positional overlap in the genome.
+* Positional Overlap File: Tab delimited file with two columns (_gene1_, _gene2_) containing pair of genes (ensembl gene ids) with positional overlap in the genome.
 
-####Cross Mappability File
-Tab delimited file with two columns (_gene1_, _gene2_) containing pair of genes (ensembl gene ids) with cross mappability (see the paper for details).
+* Cross Mappability File: Tab delimited file with two columns (_gene1_, _gene2_) containing pair of genes (ensembl gene ids) with cross mappability (see the paper for details).
 
-#### Example Data
+### Example Data
 You may download example data from [here](https://drive.google.com/file/d/0B4XmrKDM9Pe3bmFaMWhqYXdmbjQ/view?usp=sharing).  Please unzip the file and put inside the _twn directory_ (in the directory where twn.sh file is). If you do not keep data in this directory, please update the settings file accordingly.
 
 ###Settings
@@ -47,14 +41,14 @@ To check if all pre-requisites have been successfully installed, and the setting
 sh ./check_prerequisites.sh 
 ```
 
-###How to construct a TWN?
+###How to reconstruct a TWN?
 You have to run the script twn.sh with the following arguments.  
   * Total expression data file path
   * Isoform ratio data file path
   * Output file prefix
-  * 5 penalty parameters (lambda_tt, lambda_ti, lambda_ii, lambda_d, lambda_s). see the paper for details.
+  * 5 penalty parameters (lambda_tt, lambda_ti, lambda_ii, lambda_d, lambda_s). see the paper for details.  
 
-####Sample shell script code
+Sample shell script code
 ```
 # parameters
 twn_dir='/home/asaha6/github/twn_tsn/twn'    # twn directory
@@ -126,45 +120,25 @@ my $data_i =("name of expression data file"); #TODO: EDIT
 
 ####### END SAMPLE PERL SCRIPT -remember to run all the shell scripts you created in $dir
 ```
-
 2. argparser package must be installed in R.
 
 
 ###Files and Formats
 
 
-####Output Directory (-out)
-Path to directory in which results will be written
-
-####File with Gene Names (Row labels) for the expression matrix (-gn)
-Path to file with one ensembl gene label per line, in the same order as in the expression matrix 
-
-####File with Sample Size for each tissue used (-ss)
-Path to file with each line containing the number of samples from that tissue. The order of tissues is the order in which they appear in the expression matrix
-
-####File with Covariate Matrix (-cov)
-Path to tab delimited file with n rows and x columns, where n is the number of samples in the expression matrix and x is the number of covariates. The matrix is filled in with the corresponding value of the covariate for each sample. There are no column or row names in this file. NOTE: recover_TSN.R will attempt to recover networks for each of these covariates. If you have more covariates than you are interested in getting specific networks for, you should delete those columns of the matrix.
-
-####File with covariate names (-cn)
-Path to file with x rows, where each row lists the label of the corresponding column in the covariate matrix file. In other words, this should have the column names of the -cov file, with one label per row. NOTE: If you have edited the covariate matrix, remember to also edit the covariate names file.
-
-####Directory with Bicmix outputs (-rd)
-Path to directory of bicmix results. This directory should contain one directory for each run of bicmix. The path to this directory should also include the name of the subdirectories (results for each run of bicmix) up to the unique number at the end. For example, in the sample perl file above we named these subdirectories ${data_i}_fac${fac}_interval${interval}_seed${iseed}, so this path would be "/path to larger results directory/${data_i}_fac${fac}_interval${interval}_seed". (obviously those are perl variables so the values would be there instead)
-
-####Iteration (-it)
-Iteration number (ie 300) at which to use the results from Bicmix, since each run will run at its own pace and most likely finish at a different iteration.
-
-####Number of runs of bicmix (-nr)
-This assumes that the directories partially named by the -rd path are numbered in order from 1 to whatever number you input here.
-
-####Duplication Threshold (-thresh)
-Default is 4 -- meaning that edges in the TSNs are required to have shown up in at least (100/4)=25% of the bicmix runs which identified significant tissue-specific edges. 
-
-####GeneNet probability that an edge is nonzero (-gn)
-Default is 0.8
+* Output Directory (-out): Path to directory in which results will be written
+* File with Gene Names (Row labels) for the expression matrix (-gn): Path to file with one ensembl gene label per line, in the same order as in the expression matrix 
+* File with Sample Size for each tissue used (-ss): Path to file with each line containing the number of samples from that tissue. The order of tissues is the order in which they appear in the expression matrix
+* File with Covariate Matrix (-cov): Path to tab delimited file with n rows and x columns, where n is the number of samples in the expression matrix and x is the number of covariates. The matrix is filled in with the corresponding value of the covariate for each sample. There are no column or row names in this file. NOTE: recover_TSN.R will attempt to recover networks for each of these covariates. If you have more covariates than you are interested in getting specific networks for, you should delete those columns of the matrix.
+* File with covariate names (-cn): Path to file with x rows, where each row lists the label of the corresponding column in the covariate matrix file. In other words, this should have the column names of the -cov file, with one label per row. NOTE: If you have edited the covariate matrix, remember to also edit the covariate names file.
+* Directory with Bicmix outputs (-rd): Path to directory of bicmix results. This directory should contain one directory for each run of bicmix. The path to this directory should also include the name of the subdirectories (results for each run of bicmix) up to the unique number at the end. For example, in the sample perl file above we named these subdirectories ${data_i}_fac${fac}_interval${interval}_seed${iseed}, so this path would be "/path to larger results directory/${data_i}_fac${fac}_interval${interval}_seed". (obviously those are perl variables so the values would be there instead)
+* Iteration (-it): Iteration number (ie 300) at which to use the results from Bicmix, since each run will run at its own pace and most likely finish at a different iteration.
+* Number of runs of bicmix (-nr): This assumes that the directories partially named by the -rd path are numbered in order from 1 to whatever number you input here.
+* Duplication Threshold (-thresh): Default is 4 -- meaning that edges in the TSNs are required to have shown up in at least (100/4)=25% of the bicmix runs which identified significant tissue-specific edges.
+* GeneNet probability that an edge is nonzero (-gn): Default is 0.8
 
 
-###How to construct a TSN?
+###How to reconstruct a TSN?
 You have to run the script recover_TSN.R with the arguments listed above
   
 After running that script, you will find several files in the given output directory. For each covariate where a specific network was recovered, there will be two files: both will start with the name of the covariate and one will end with _nodes.csv, the other with _edges.csv. Those two files will contain the information for the covariate specific networks.

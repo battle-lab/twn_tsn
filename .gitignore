@@ -9,7 +9,7 @@
 
 # data and results folder
 twn/data/[^readme]*
-twn/data/[^readme]/
+twn/data/demo/
 twn/results/
 
 tsn/data/[^readme]*

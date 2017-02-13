@@ -1,0 +1,9 @@
+# R user files
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# data and resutls folder
+data/
+results/

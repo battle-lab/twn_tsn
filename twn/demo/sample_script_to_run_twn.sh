@@ -1,5 +1,5 @@
 # parameters
-twn_dir='/home/asaha6/github/twn_tsn/twn'    # twn directory
+twn_dir='/home/asaha6/github/twn_tsn/twn'    # twn directory *** change it ***
 te_fn="$twn_dir/data/demo/TE_demo.txt"       # total expression file
 ir_fn="$twn_dir/data/demo/IR_demo.txt"       # isoform ratio file
 out_fn_prefix="$twn_dir/demo/output_demo"    # output file prefix

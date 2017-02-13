@@ -1,5 +1,4 @@
-#twn_tsn
-This repository contains code to reconstruct transcriptome-wide networks (TWNs) and tissue-specific networks (TSNs), as described in the paper titled [Co-expression networks reveal the tissue-specific regulation of transcription and splicing](http://biorxiv.org/content/early/2016/10/02/078741.abstract). Instructions for each type of network are given below.
+This repository contains code to reconstruct **transcriptome-wide networks (TWNs)** and **tissue-specific networks (TSNs)**, as described in the paper titled [Co-expression networks reveal the tissue-specific regulation of transcription and splicing](http://biorxiv.org/content/early/2016/10/02/078741.abstract). Instructions for each type of network are given below.
 
 #Transcriptome-Wide Network (TWN)
 

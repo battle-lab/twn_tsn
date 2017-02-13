@@ -4,6 +4,6 @@
 .RData
 .Ruserdata
 
-# data and resutls folder
-data/
-results/
+# personal folder history
+.DS_Store
+

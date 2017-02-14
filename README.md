@@ -8,7 +8,7 @@ A transcriptome-wide network (TWN) is an undirected network consturcted over tot
 
 All the scripts here were written and run in Linux environment with matlab 2013a, python 2.7.7, and R 3.1.1.
 
-1. QUIC() function must be running in matlab. Please see instructions here: http://www.cs.utexas.edu/~sustik/QUIC/. For convenience, we included QUIC package in our repository. You may need to compile it following the instructions in README file inside QUIC package.
+1. QUIC() function must be running in matlab. Please download the [MEX package archive](http://www.cs.utexas.edu/~sustik/QUIC/QUIC_MEX_1.2.tar) from http://www.cs.utexas.edu/~sustik/QUIC/, unzip it, and compile it following the instructions in README file inside QUIC package. By default, it is expected to be inside the _twn directory_ in a folder named _QUIC_, but you may install it somewhere else and configure it in the _settings.sh_ file in the _twn directory_.
 2. 3 packages must be installed in python: numpy, pandas, and argparse.
 3. 2 packages must be installed in R: argparser, and data.table.
 

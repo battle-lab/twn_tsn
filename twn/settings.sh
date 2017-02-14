@@ -1,5 +1,5 @@
 settings_dir=$(cd $(dirname "$0") && pwd -P);
-quic_directory="$settings_dir/QUIC_1.2";
+quic_directory="$settings_dir/QUIC";
 gene_annotation="$settings_dir/data/gene_annot.txt"; 
 isoform_annotation="$settings_dir/data/transcript_annot.txt";
 positional_overlap="$settings_dir/data/positional_overlap.txt";

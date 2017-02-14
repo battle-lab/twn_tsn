@@ -153,28 +153,12 @@ mm_out_fn = sprintf('%s.mm', out_fn);
 mmwrite(mm_out_fn, X);
 clear X;
 
-obj_out_fn = sprintf('%s.obj', out_fn);
-fid = fopen(obj_out_fn, 'w');
-fprintf(fid, '%f\t', opt);
+% save QUIC outputs
+quic_info_out_fn = sprintf('%s.quic.info', out_fn);
+fid = fopen(quic_info_out_fn, 'w');
+fprintf(fid, 'optimum objective: %f\n', opt);
+fprintf(fid, 'iteration: %d\n', iter_run);
+fprintf(fid, 'time to run: %f\n', cputime);
 fclose(fid);
 
-time_out_fn = sprintf('%s.time', out_fn);
-fid = fopen(time_out_fn, 'w');
-fprintf(fid, '%f\t', cputime);
-fclose(fid);
-
-iter_out_fn = sprintf('%s.iter', out_fn);
-fid = fopen(iter_out_fn, 'w');
-fprintf(fid, '%d\t', iter_run);
-fclose(fid);
-
-dgap_out_fn = sprintf('%s.dgap', out_fn);
-fid = fopen(dgap_out_fn, 'w');
-fprintf(fid, '%f\t', dGap);
-fclose(fid);
-
-%disp('saving X^-1');
-%W = sparse(W);
-%inv_out_fn = sprintf('%s.inv.mm', out_fn);
-%mmwrite(inv_out_fn, W);
 

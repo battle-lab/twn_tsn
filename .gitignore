@@ -19,3 +19,5 @@ tsn/results/
 #demo outputs
 twn/demo/output*
 
+twn/QUIC/[^r]*
+twn/QUIC/[^r]/

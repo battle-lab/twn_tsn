@@ -6,11 +6,10 @@ A transcriptome-wide network (TWN) is an undirected network consturcted over tot
 
 ### Installation
 
-All the scripts here were written and run in Linux environment with matlab 2013a, python 2.7.7, and R 3.1.1.
+All the scripts here were written and run in Linux environment with matlab 2013a, and R 3.1.1.
 
 1. QUIC() function must be running in matlab. Please download the [MEX package archive v1.2](http://www.cs.utexas.edu/~sustik/QUIC/QUIC_MEX_1.2.tar) from http://www.cs.utexas.edu/~sustik/QUIC/, unzip it, and compile it following the instructions in README file inside QUIC package. By default, QUIC package is expected to be inside the _twn directory_ as a folder named _QUIC_, but you may install it in any other directory and configure it in the _settings.sh_ file in the _twn directory_.
-2. 3 packages must be installed in python: numpy, pandas, and argparse.
-3. 2 packages must be installed in R: argparser, and data.table.
+2. 2 packages must be installed in R: argparser, and data.table.
 
 
 ###Files and Formats
@@ -69,10 +68,9 @@ sh ./twn.sh $te_fn $ir_fn $out_fn_prefix $l_tt $l_ti $l_ii $l_d $l_s
 
 For convenience, a sample script (_sample_script_to_run_twn.sh_) has been provided in the demo folder (_twn/demo/_) to construct a TWN. Remember to change the value of _twn_dir_ in the sample script to reflect your own _twn directory_.
 
-After a successful run, you will find the following 5 files with starting with the given output file prefix.
+After a successful run, you will find the following 4 files with starting with the given output file prefix.
 * _[output prefix].twn.txt_: It is the most important output file. It is a tab delimited file with four columns representing the constructed transcriptome-wide network. Here, the first two columns, containing either a total expression id or an isoform id, together represent an edge. The third column represents the type of the edge: 1 for an edge strictly between two total expressions, 2 for an edge between a total expression and an isoform, 3 for an edge strictly between two isoforms. The fourth column represents the edge weight.  
 * _[output prefix].quic.txt_: The format of this file is similar to _[output prefix].twn.txt_, but it also contains the filtered edges from the inverse covariance matrix estimated by QUIC.
-* _[output prefix].quic.mm_: It contains essentially same information as _[output prefix].quic.txt_ in matrix market format without the feature names.
 * _[output prefix].quic.info_: It contains a few outptus from QUIC - i) the optimum objective value obtained from QUIC, ii) the number of iteration needed for the optimization, and iii) the time needed to finish the optimization.
 * _[output prefix]\_data_status.txt_: An intermediate file used to contain whether given data are correctly formatted or not.
 

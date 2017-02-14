@@ -56,6 +56,7 @@ isoforms = strsplit(first_line, {'\t', '\n'});
 isoforms = isoforms(2:(size(isoforms,2)-1));
 fclose(fh);
 
+features = [genes, isoforms];
 [nse ne] = size(M1);
 [nsi ni] = size(M2); 
 nfeatures = ne + ni;
@@ -147,11 +148,34 @@ S = cov(M);
 clear S;
 clear L;
 
-% save results
-X = sparse(X);
-mm_out_fn = sprintf('%s.mm', out_fn);
-mmwrite(mm_out_fn, X);
+
+% save sparse X
+disp('saving QUIC results');
+display(datestr(now));
+[rows,cols,values] = find(X);
 clear X;
+to_take = rows<=cols;
+rows_taken = rows(to_take);
+cols_taken = cols(to_take);
+name1s = features(rows_taken);
+name2s = features(cols_taken);
+weights = values(to_take);
+types = ones(size(rows_taken,1),1);
+types(rows_taken <= ne & cols_taken > ne) = 2;
+types(rows_taken > ne & cols_taken > ne) = 3;
+
+quic_out_fn = sprintf('%s.quic.txt', out_fn);
+fid = fopen(quic_out_fn, 'w');
+fprintf(fid, 'Name1\tName2\tEdge type\tEdge weight\n');
+%strings= strcat(name1s,{'\t'}, name2s, {'\t'}, strread(num2str(types'),'%s')', {'\t'},strread(num2str(weights'),'%s')', {'\n'}));
+C = reshape( cat(4, name1s, name2s, strread(num2str(types'),'%s')', strread(num2str(weights'),'%s')'), size(types,1),4);
+formatSpec = '%s\t%s\t%s\t%s\n';
+for row = 1:size(types,1)
+    fprintf(fid,formatSpec,C{row,:});
+end
+fclose(fid);
+display(datestr(now));
+
 
 % save QUIC outputs
 quic_info_out_fn = sprintf('%s.quic.info', out_fn);

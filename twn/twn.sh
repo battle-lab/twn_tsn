@@ -35,10 +35,6 @@ then
     echo "running QUIC ...";
     $matlab_path -nodisplay -nosplash -singleCompThread -r "try, twn $te_fn $ir_fn $out_fn_prefix  $l_tt $l_ti $l_ii $l_d $l_s $n_iteration $threshold 1 $standardize_data $isoform_annotation $quic_directory, catch err, disp(err), end, quit";
 
-    ### convert matrix market file to readable network format
-    echo "exporting networks in a readable format ...";
-    $python_path matrix_market2txt.py -in "$out_fn_prefix.mm" -expr $te_fn -iso $ir_fn -o "$out_fn_prefix.quic.txt";
-
     ### filter unwanted edges
     echo "filtering unwanted edges ...";
     $rscript_path filter_edges.R -net "$out_fn_prefix.quic.txt"  -gene_annot "$gene_annotation" -trans_annot "$isoform_annotation" -conflict "$cross_mappable_genes" -overlap "$positional_overlap" -o "$out_fn_prefix.twn.txt";

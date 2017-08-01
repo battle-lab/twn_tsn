@@ -1,6 +1,6 @@
 This repository contains code to reconstruct **transcriptome-wide networks (TWNs)** and **tissue-specific networks (TSNs)**, as described in the paper titled [Co-expression networks reveal the tissue-specific regulation of transcription and splicing](http://biorxiv.org/content/early/2016/10/02/078741.abstract). Instructions for each type of network are given below.
 
-#Transcriptome-Wide Network (TWN)
+# Transcriptome-Wide Network (TWN)
 
 A transcriptome-wide network (TWN) is an undirected network consturcted over total expression and isoform ratio jointly. Codes to reconstruct a TWN reside in the _twn_ folder, here referred as _twn directory_. 
 
@@ -12,7 +12,7 @@ All the scripts here were written and run in Linux environment with matlab 2013a
 2. 2 packages must be installed in R: argparser, and data.table.
 
 
-###Files and Formats
+### Files and Formats
 
 * Total Expression File: Tab delimited file containing corrected total expression data. Each row represent a sample and each column represents a gene. First row and first column contain gene ids and sample ids, respectively.
 
@@ -29,17 +29,17 @@ All the scripts here were written and run in Linux environment with matlab 2013a
 ### Example Data
 You may download example data from [here](https://drive.google.com/file/d/0B4XmrKDM9Pe3bmFaMWhqYXdmbjQ/view?usp=sharing).  Please unzip the file and put inside the _twn directory_ (in the directory where twn.sh file is). If you do not keep data in this directory, please update the settings file accordingly.
 
-###Settings
+### Settings
 _settings.sh_ file (inside _twn directory_) contains necessary information to reconstruct transcriptome-wide network (i.e., to run _twn.sh_). You may need to edit this file to customize your settings.
 
-###Are the installations and the settings are OK?
+### Are the installations and the settings are OK?
 To check if all pre-requisites have been successfully installed, and the setting file contains valid configuration, run the following command.
 
 ```
 sh ./check_prerequisites.sh 
 ```
 
-###How to reconstruct a TWN?
+### How to reconstruct a TWN?
 You have to run the script twn.sh with the following arguments.  
   * Total expression data file path
   * Isoform ratio data file path
@@ -74,7 +74,7 @@ After a successful run, you will find the following 4 files with starting with t
 * _[output prefix].quic.info_: It contains a few outptus from QUIC - i) the optimum objective value obtained from QUIC, ii) the number of iteration needed for the optimization, and iii) the time needed to finish the optimization.
 * _[output prefix]\_data_status.txt_: An intermediate file used to contain whether given data are correctly formatted or not.
 
-#Tissue-Specific Network (TSN)
+# Tissue-Specific Network (TSN)
 
 A Tissue Specific Network (TSN) is an undirected network constructed over total gene expressions using [Bicmix](https://www.cs.princeton.edu/~bee/software.html). It contains an edges between two nodes if the nodes are co-expressed only in the tissue of interest. Codes to reconstruct a TSN reside in the _tsn_ folder, here referred as _tsn directory_. 
 
@@ -122,7 +122,7 @@ my $data_i =("name of expression data file"); #TODO: EDIT
 2. argparser package must be installed in R.
 
 
-###Files and Formats
+### Files and Formats
 
 
 * Output Directory (-out): Path to directory in which results will be written
@@ -137,7 +137,7 @@ my $data_i =("name of expression data file"); #TODO: EDIT
 * GeneNet probability that an edge is nonzero (-gn): Default is 0.8
 
 
-###How to reconstruct a TSN?
+### How to reconstruct a TSN?
 You have to run the script recover_TSN.R with the arguments listed above
   
 After running that script, you will find several files in the given output directory. For each covariate where a specific network was recovered, there will be two files: both will start with the name of the covariate and one will end with _nodes.csv, the other with _edges.csv. Those two files will contain the information for the covariate specific networks.

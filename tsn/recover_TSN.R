@@ -106,7 +106,7 @@ find.fac.spec <- function(data, covSpec){
 get.network.all.component.spec <- function(data, facSpec, gn_prob){
   lam <- data$lam; ex <- data$ex; z <- data$z; o <- data$o; EXX <- data$EXX
   PSI <- data$PSI
-  VXX=EXX[facSpec, facSpec, drop = F] - ex[facSpec, , drop = F] %*%
+  VXX <- EXX[facSpec, facSpec, drop = F] - ex[facSpec, , drop = F] %*%
        t(ex[facSpec, , drop = F])
 
   if(nrow(VXX) == 1){

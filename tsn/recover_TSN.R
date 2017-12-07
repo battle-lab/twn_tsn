@@ -50,8 +50,8 @@ covNames <- read.table(cn_fn, as.is = T)[,1]
 
 # some basic parameters of the data
 nG <- length(geneNames)      ## gene number
-nS <- nrow(cov)              ## sample size
-nCovTotal <- ncol(cov)       ## number of covariates
+nS <- ncol(cov)              ## sample size
+nCovTotal <- nrow(cov)       ## number of covariates
 
 
 #################All the functions############################

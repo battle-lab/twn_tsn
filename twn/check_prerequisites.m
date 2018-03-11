@@ -1,13 +1,13 @@
 function check_prequisite(annot_fn, quic_dir)
 
     % check if dataset exists
-    if(exist('dataset') ~= 2)
+    if(exist('dataset', 'file') ~= 2)
         throw(MException('twn:datasetnotexist', 'dataset() function does not exist in matlab.'))
     end
 
     % check if QUIC exists
     addpath(quic_dir);
-    if(exist('QUIC') ~= 3)
+    if(exist('QUIC', 'file') ~= 3)
         throw(MException('twn:quicnotexist', 'Either QUIC package (http://www.cs.utexas.edu/~sustik/QUIC/) was not installed properly or quic_directory setting was not set properly.'))
     end
 

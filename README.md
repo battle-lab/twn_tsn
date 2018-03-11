@@ -30,14 +30,22 @@ All the scripts here were written and run in Linux environment with matlab 2013a
 You may download example data from [here](https://drive.google.com/file/d/0B4XmrKDM9Pe3bmFaMWhqYXdmbjQ/view?usp=sharing).  Please unzip the file and put inside the _twn directory_ (in the directory where twn.sh file is). If you do not keep data in this directory, please update the settings file accordingly.
 
 ### Settings
-_settings.sh_ file (inside _twn directory_) contains necessary information to reconstruct transcriptome-wide network (i.e., to run _twn.sh_). You may need to edit this file to customize your settings.
+_settings.sh_ file (inside _twn directory_) contains necessary information to reconstruct transcriptome-wide network (i.e., to run _twn.sh_). To customize your settings, you may edit this file or create a new shell-script file.
 
 ### Are the installations and the settings are OK?
-To check if all pre-requisites have been successfully installed, and the setting file contains valid configuration, run the following command.
+To check if all pre-requisites have been successfully installed, and the default setting file contains valid configuration, run the following command.
 
 ```
 sh ./check_prerequisites.sh 
 ```
+
+To check if all pre-requisites have been successfully installed, and your customized setting file contains valid configuration, run the following command.
+
+```
+settings_fn="my_settings.sh"  # put your settings file name
+sh ./check_prerequisites.sh $settings_fn
+```
+
 
 ### How to reconstruct a TWN?
 You have to run the script twn.sh with the following arguments.  
@@ -45,6 +53,7 @@ You have to run the script twn.sh with the following arguments.
   * Isoform ratio data file path
   * Output file prefix
   * 5 penalty parameters (lambda_tt, lambda_ti, lambda_ii, lambda_d, lambda_s). see the paper for details.  
+  * settings_filename [optional]
 
 Sample shell script code
 ```

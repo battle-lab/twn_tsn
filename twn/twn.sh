@@ -33,6 +33,9 @@ else
 fi
 source $settings_fn;
 
+### set verbose if not present in settings
+if [ "$verbose" == "" ]; then verbose=0; fi
+
 cd "$twn_directory";
 
 ### check if input files are ok
@@ -45,7 +48,7 @@ if(( $data_status == '1' ))
 then
     ### run quic
     echo "running QUIC ...";
-    $matlab_path -nodisplay -nosplash -singleCompThread -r "try, twn $te_fn $ir_fn $out_fn_prefix  $l_tt $l_ti $l_ii $l_d $l_s $n_iteration $threshold 1 $standardize_data $isoform_annotation $quic_directory, catch err, disp(err), end, quit";
+    $matlab_path -nodisplay -nosplash -singleCompThread -r "try, twn $te_fn $ir_fn $out_fn_prefix  $l_tt $l_ti $l_ii $l_d $l_s $n_iteration $threshold $verbose $standardize_data $isoform_annotation $quic_directory, catch err, disp(err), end, quit";
 
     ### filter unwanted edges
     echo "filtering unwanted edges ...";

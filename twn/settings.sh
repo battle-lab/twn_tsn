@@ -8,6 +8,7 @@ cross_mappable_genes="$settings_dir/data/cross_mappable_genes.txt";
 n_iteration=50;
 threshold=1e-4;
 standardize_data=1;     # 1: standardize data, 0: do not standardize data
+verbose=4;              # verbosity: 0 (lowest) to 4 (highest)
 
 matlab_path="matlab";   # "matlab" to use default matlab
 rscript_path="Rscript"; # "Rscript" to use default R

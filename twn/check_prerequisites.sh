@@ -1,6 +1,17 @@
 #!/bin/sh
 twn_directory=$(cd $(dirname "$0") && pwd -P);
-settings_fn="$twn_directory/settings.sh";
+if [ $# -ge 1 ]; then
+  # settings parameter (1st) is optional
+  settings_fn=$1
+  # convert to absolute path
+  case $settings_fn in
+    /*) settings_fn=$settings_fn;;
+    *) settings_fn=$PWD/$settings_fn;;
+  esac
+else
+  # default settings file
+  settings_fn="$twn_directory/settings.sh";
+fi
 source $settings_fn;
 
 

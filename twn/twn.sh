@@ -1,9 +1,9 @@
 #!/bin/sh
 
 ### read inputs
-if [ ! $# -eq 8 ]; then
-  # there must have 8 parameters
-  echo "invalid number of parameters: $#\nrequired parameters:\n 1) total expression file (string)\n 2) isoform ratio file (string)\n 3) output file prefix (string)\n 4) lambda_tt (float)\n 5) lambda_ti (float)\n 6) lambda_ii (float)\n 7) lambda_d (float)\n 8) lambda_s (float)";
+if [ $# -lt 8 ] || [ $# -gt 9 ] ; then
+  # there must have at 8 or 9 parameters
+  echo "invalid number of parameters: $#\nrequired parameters:\n 1) total expression file (string)\n 2) isoform ratio file (string)\n 3) output file prefix (string)\n 4) lambda_tt (float)\n 5) lambda_ti (float)\n 6) lambda_ii (float)\n 7) lambda_d (float)\n 8) lambda_s (float)\n 9) settings_fn (string) [optional]";
   exit 1;
 fi
 
@@ -16,9 +16,21 @@ l_ii=$6;
 l_d=$7;
 l_s=$8;
 
-### load settings
 twn_directory=$(cd $(dirname "$0") && pwd -P);
-settings_fn="$twn_directory/settings.sh";
+
+### load settings
+if [ $# -ge 9 ]; then
+  # settings parameter (9th) is optional
+  settings_fn=$9
+  # convert to absolute path
+  case $settings_fn in
+    /*) settings_fn=$settings_fn;;
+    *) settings_fn=$PWD/$settings_fn;;
+  esac
+else
+  # default settings file
+  settings_fn="$twn_directory/settings.sh";
+fi
 source $settings_fn;
 
 cd "$twn_directory";

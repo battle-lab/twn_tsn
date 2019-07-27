@@ -13,8 +13,8 @@ args <- arg_parser("program");
 args <- add_argument(args, "-out", help="output directory")
 args <- add_argument(args, "-gn", help="file with gene names in order used in
                                      expression matrix, one per line")
-args <- add_argument(args, "-cov", help="covariate matrix with samples as rows
-                                    and covariates as columns")
+args <- add_argument(args, "-cov", help="covariate matrix with samples as columns
+                                    and covariates as rows")
 args <- add_argument(args, "-cn", help="covariate names")
 args <- add_argument(args, "-rd", help="directory with bicmix run outputs(each
                                      as a directory)")
@@ -30,7 +30,6 @@ args <- add_argument(args, "-thresh", help="number of times you require an edge
                                         default=4)
 
 argv     <- parse_args(args)
-af_fn    <- argv$af
 cov_fn   <- argv$cov
 cn_fn    <- argv$cn
 dir      <- argv$rd
@@ -224,10 +223,10 @@ for(i in 1:length(seeds2use)){
   # iTis below controls which covariates you find tissue-specific networks for
   for(iTis in c(1:nCovTotal)){
     facSpec <- find.fac.spec(data, cov[,iTis]);
-    if(length(facSpec$count1$whichFac) == 0){
+    if(length(facSpec[[1]]whichFac) == 0){
       next
     }
-    arth.net <- get.network.all.component.spec(data, facSpec$count1$whichFac,
+    arth.net <- get.network.all.component.spec(data, facSpec[[1]]whichFac,
                  gn_prob)
     if(length(arth.net) == 1){
       next
@@ -236,10 +235,10 @@ for(i in 1:length(seeds2use)){
                         sd = rep(isd, nrow(arth.net))))
 
     sdFac[[iTis]] <- rbind(sdFac[[iTis]], data.frame(
-                      sd = rep(isd, length(facSpec$count1$whichFac)), 
-                      fac = facSpec$count1$whichFac, 
-                      lamCount = lamCount[facSpec$count1$whichFac],
-                      xCount = xCount[facSpec$count1$whichFac]))
+                      sd = rep(isd, length(facSpec[[1]]whichFac)), 
+                      fac = facSpec[[1]]whichFac, 
+                      lamCount = lamCount[facSpec[[1]]whichFac],
+                      xCount = xCount[facSpec[[1]]whichFac]))
   }
 }
 
